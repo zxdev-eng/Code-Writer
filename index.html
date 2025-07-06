@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Code Writer</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0;
+      font-family: monospace;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 24px;
+    }
+    nav {
+      padding: 10px;
+      text-align: center;
+      background: #f0f0f0;
+      border-bottom: 1px solid #ccc;
+    }
+    button {
+      font-size: 16px;
+      padding: 8px 20px;
+      margin: 0 5px;
+      cursor: pointer;
+      border-radius: 5px;
+      border: none;
+      background: #007bff;
+      color: white;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    #content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      overflow: hidden;
+    }
+    .editors {
+      display: flex;
+      gap: 10px;
+      flex: 1;
+      min-height: 300px;
+    }
+    .editor {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    textarea {
+      flex: 1;
+      resize: none;
+      font-family: monospace;
+      font-size: 14px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    iframe {
+      height: 300px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    #aboutSection {
+      max-width: 700px;
+      margin: 30px auto;
+      font-size: 18px;
+      line-height: 1.5;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+
+<header>Code Writer</header>
+
+<nav>
+  <button id="btnEditor">Code Editor</button>
+  <button id="btnAbout">About Us</button>
+</nav>
+
+<div id="content">
+
+  <!-- Editor section -->
+  <div id="editorSection">
+    <div class="editors">
+      <div class="editor">
+        <label for="htmlCode">HTML</label>
+        <textarea id="htmlCode" spellcheck="false">&lt;h1&gt;Hello World&lt;/h1&gt;</textarea>
+      </div>
+      <div class="editor">
+        <label for="cssCode">CSS</label>
+        <textarea id="cssCode" spellcheck="false">h1 { color: green; }</textarea>
+      </div>
+      <div class="editor">
+        <label for="jsCode">JavaScript</label>
+        <textarea id="jsCode" spellcheck="false">console.log('JS working');</textarea>
+      </div>
+    </div>
+
+    <iframe id="output"></iframe>
+  </div>
+
+  <!-- About Us section -->
+  <div id="aboutSection" style="display:none;">
+    <h2>About Code Writer</h2>
+    <p>
+      Welcome to <strong>Code Writer</strong>! This is a simple tool that lets you write and instantly run HTML, CSS, and JavaScript all in one place.
+      Perfect for beginners and pros alike to practice and test their code live without needing any setup.
+    </p>
+    <p>
+      Just type your code in the boxes and see the output below. You can switch back and forth between the code editor and this About page anytime.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  const btnEditor = document.getElementById('btnEditor');
+  const btnAbout = document.getElementById('btnAbout');
+  const editorSection = document.getElementById('editorSection');
+  const aboutSection = document.getElementById('aboutSection');
+
+  const htmlCode = document.getElementById('htmlCode');
+  const cssCode = document.getElementById('cssCode');
+  const jsCode = document.getElementById('jsCode');
+  const output = document.getElementById('output');
+
+  function runCode() {
+    const html = htmlCode.value;
+    const css = cssCode.value;
+    const js = jsCode.value;
+
+    const fullCode = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head><style>${css}</style></head>
+      <body>
+        ${html}
+        <script>${js}<\/script>
+      </body>
+      </html>
+    `;
+
+    output.srcdoc = fullCode;
+  }
+
+  htmlCode.addEventListener("input", runCode);
+  cssCode.addEventListener("input", runCode);
+  jsCode.addEventListener("input", runCode);
+
+  btnAbout.addEventListener('click', () => {
+    editorSection.style.display = 'none';
+    aboutSection.style.display = 'block';
+  });
+
+  btnEditor.addEventListener('click', () => {
+    aboutSection.style.display = 'none';
+    editorSection.style.display = 'flex';
+  });
+
+  // Run initial code
+  runCode();
+</script>
+
+</body>
+</html>
